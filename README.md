@@ -1,4 +1,3 @@
-# 🚀 Front end code challenge
 ![image](docs/images/customautocomplete.jpeg)
 
 ## How to run the project locally
