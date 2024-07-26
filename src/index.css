@@ -1,0 +1,61 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  background-color:#282828;
+  color: #FFF;
+  font-family: "Poppins", sans-serif;
+  font-weight: 300;
+  font-style: normal;
+}
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;  
+  flex-direction: column;
+}
+
+.custom-autocomplete {
+  position: relative;
+  display: inline-block;
+  width: 200px;
+}
+
+.custom-autocomplete .field{
+  width: 100%;
+  color: #FFF;
+  padding: 10px;
+  background-color: transparent;
+  border: none;
+  border-bottom: 1px solid #FFF;  
+}
+
+.custom-autocomplete .list{
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  text-align: left;
+  background-color: #393A3E;
+  max-height: 300px;
+  overflow: hidden;
+  overflow-y: scroll;
+}
+.custom-autocomplete .list .default-item, .custom-autocomplete .list .selected-item{
+  padding: 10px;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+
+.custom-autocomplete .list .default-item .match, .custom-autocomplete .list .selected-item .match{
+  color: blue;
+}
+
+.custom-autocomplete .list .selected-item {
+  background-color: #FF2261;
+}
+.autocomplete ul {
+  max-height: 300px;
+  overflow-y: scroll;
+  overflow-x: hidden;
+}
