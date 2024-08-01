@@ -1,6 +1,4 @@
 import { ChangeEvent, KeyboardEvent, memo, useEffect, useRef, useState } from "react";
-import { useThrottle } from "../hooks/useThrottle";
-import { useClickOutside } from "../hooks/useClickOutside";
 
 export const CustomAutoComplete = memo(({ items }: { items: string[] }) => {
   const [userInput, setUserInput] = useState("");
@@ -12,13 +10,9 @@ export const CustomAutoComplete = memo(({ items }: { items: string[] }) => {
 
   const scrollIntoItem = () => {
     const selected = selectedRef.current?.querySelector(".selected-item");
-    selected?.scrollIntoView({ behavior: "smooth", block: "start" });
+    selected?.scrollIntoView({ behavior: "smooth", block: "nearest" });
   };
-
-  useClickOutside({
-    ref: inputRef,
-    cb: () => setTimeout(() => setIsOpened(false), 100)
-  });
+  
 
   useEffect(() => {
     inputRef.current?.setAttribute("aria-expanded", isOpened.toString());
@@ -67,6 +61,10 @@ export const CustomAutoComplete = memo(({ items }: { items: string[] }) => {
     if (filter.length > 0) setIsOpened(true);
   };
 
+  const onBlur= () => {
+    setTimeout(() => setIsOpened(false), 100)
+  }
+
   return (
     <div className="custom-autocomplete">
       <input
@@ -76,7 +74,8 @@ export const CustomAutoComplete = memo(({ items }: { items: string[] }) => {
         className="field"
         placeholder="Search for an email"
         onFocus={handleFocus}
-        onChange={useThrottle(handleChange, 100)}
+        onChange={handleChange}
+        onBlur={onBlur}
         aria-haspopup="listbox"
         aria-expanded="false"
         onKeyDown={handleKeyDown}

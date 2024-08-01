@@ -1,33 +1,27 @@
-import { useEffect, useState } from 'react';
+import { useMemo } from 'react';
 import { CustomAutoComplete } from './components/CustomAutoComplete';
+import { useFetchRequest } from './hooks/useFetchRequest';
 
-const getEmails = async () => {
-  const response = await fetch('https://jsonplaceholder.typicode.com/comments');
-  const data : {email: string}[] = await response.json();
-  return data;  
-};
+function App() {  
+  const {data: items, loading, error} = useFetchRequest<{email: string}[]>('https://jsonplaceholder.typicode.com/comments')
 
-function App() {
-  const [items, setItems] = useState<string[]>([]);
-  const getItems = async () =>{
-    const emails = await getEmails();
-    setItems(emails.map((curr) => curr.email));    
+  const transformItems = useMemo(() => items ? items.map(({email}) => email) : [],[items]);
+
+  if(loading) {
+    return <h2>...Loading</h2>
   }
 
-  useEffect(() => {
-    getItems();
-  }, [])
-  
+  if(error) {
+    return <h2>An error has occurred</h2>
+  }
+  if(!items){
+    return <h2>No emails found</h2>
+  }
+
   return (
     <main className="container">
-      <h1>Custom autocomplete</h1>
-      {items.length > 0 ? (
-        <>        
-         <CustomAutoComplete items={items}/>
-        </>
-      ) : (
-        <h2>Loading...</h2>
-      )}
+      <h1>Custom autocomplete</h1>      
+      <CustomAutoComplete items={transformItems}/>        
     </main>
   )
 }
